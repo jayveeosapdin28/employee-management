@@ -16,7 +16,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 class Employee extends Component
 {
     use WithFileUploads, WithPagination;
-
+    protected $paginationTheme = 'bootstrap';
     protected $listeners = ['delete'];
     public $posts = [];
     public $form = [
