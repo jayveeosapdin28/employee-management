@@ -83,7 +83,7 @@
                                         <button type="button" wire:click="editEmployee({{$employee->id}})"
                                                 data-toggle="modal" data-target="#employeeFormModal"
                                                 class="btn btn-success" title="Edit"><i class="fa fa-edit"></i></button>
-                                        <button type="button" class="btn btn-danger" title="Delete"><i
+                                        <button type="button" wire:click="deleteConfirm({{$employee->id}})" class="btn btn-danger" title="Delete"><i
                                                 class="fa fa-trash"></i></button>
                                     </td>
                                 </tr>
@@ -103,6 +103,20 @@
     <script type="text/javascript">
         window.addEventListener('close-modal', event => {
             $('#employeeFormModal').modal('hide');
+        })
+        window.addEventListener('swal:confirm',event => {
+            swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this.",
+                icon: 'info',
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete)=>{
+                if (willDelete){
+                    Livewire.dispatch('delete',{id:event.detail[0].id})
+                }
+
+            })
         })
     </script>
 @endpush

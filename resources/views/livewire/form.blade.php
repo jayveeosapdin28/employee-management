@@ -68,9 +68,9 @@
                         <small class="form-text text-danger">{{$message}}</small>
                         @enderror
                         @if($form['avatar'])
-                           <div class="mt-3">
-                               <img width="100" height="100" style="object-fit: cover" src="{{$form['avatar']->temporaryUrl()}}" >
-                           </div>
+                            <div class="mt-3">
+                                <img width="100" height="100" style="object-fit: cover" src="{{ is_string($form['avatar']) ? $form['avatar'] : $form['avatar']->temporaryUrl() }}" alt="Avatar">
+                            </div>
                         @endif
                     </div>
                 </div>

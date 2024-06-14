@@ -10,12 +10,14 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Employee as EmployeeModel;
 use Livewire\WithPagination;
+use RealRashid\SweetAlert\Facades\Alert;
 
 #[Layout('layouts.app')]
 class Employee extends Component
 {
     use WithFileUploads, WithPagination;
 
+    protected $listeners = ['delete'];
     public $posts = [];
     public $form = [
         'id' => null,
@@ -64,6 +66,8 @@ class Employee extends Component
         $this->dispatch('close-modal');
     }
 
+
+
     public function updated($fields)
     {
         $this->validateOnly($fields, [
@@ -103,7 +107,7 @@ class Employee extends Component
 
     public function closeModal()
     {
-        $this->reset(['form']);
+        $this->resetField();
     }
 
     public function storeEmployee()
@@ -133,7 +137,13 @@ class Employee extends Component
         session()->flash('message', 'Employee updated successfully.');
     }
 
-
+    public function deleteConfirm($id){
+        $this->dispatch('swal:confirm',['id' => $id]);
+    }
+    public function delete($id){
+        EmployeeModel::find($id)->delete();
+        session()->flash('message', 'Employee deleted successfully.');
+    }
     public function render()
     {
         $employees = EmployeeList::query()
